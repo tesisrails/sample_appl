@@ -16,33 +16,33 @@ describe User do
 	it { should respond_to(:authenticate) }
 	
 	it { should be_valid }
-	#----------------------------------------------------
+	
 	describe "when name is not present" do
 		before { @user.name = " " }
 		it { should_not be_valid }
 	end
-	#----------------------------------------------------
+	
 	describe "when email is not present" do
 		before { @user.email = " " }
 		it { should_not be_valid }
 	end
-	#----------------------------------------------------
+	
 	describe "when name is too long" do
 		before { @user.name = "a" * 51 }
 		it { should_not be_valid }
 	end
-	#----------------------------------------------------
-describe "when email format is invalid" do
-    it "should be invalid" do
-      addresses = %w[user@foo,com user_at_foo.org example.user@foo.
+	
+	describe "when email format is invalid" do
+		it "should be invalid" do
+			addresses = %w[user@foo,com user_at_foo.org example.user@foo.
                      foo@bar_baz.com foo@bar+baz.com]
-      addresses.each do |invalid_address|
-        @user.email = invalid_address
-        expect(@user).not_to be_valid
-      end
-    end
-  end
-	#----------------------------------------------------
+			addresses.each do |invalid_address|
+				@user.email = invalid_address
+				expect(@user).not_to be_valid
+			end
+		end
+	end
+	
 	describe "when email format is valid" do
 		it "should be valid" do
 			addresses = %w[user@foo.COM A_US-ER@f.b.org frst.lst@foo.jp a+b@baz.cn]
@@ -52,7 +52,7 @@ describe "when email format is invalid" do
 			end
 		end
 	end
-#----------------------------------------------------
+
 	describe "when email address is already taken" do
 		before do
 			user_with_same_email = @user.dup
@@ -62,7 +62,7 @@ describe "when email format is invalid" do
 			
 		it { should_not be_valid }
 	end
-	#----------------------------------------------------
+	
 	describe "when password is not present" do
 		before do
 			@user = User.new(name: "Example User", email: "user@example.com",
@@ -71,19 +71,17 @@ describe "when email format is invalid" do
 		
 		it { should_not be_valid }
 	end
-	#----------------------------------------------------
+	
 	describe "when password doesn't match confirmation" do
 		before { @user.password_confirmation = "mismatch" }
 		it{ should_not be_valid }
 	end
-	#----------------------------------------------------
+	
 	describe "with a password that's too short" do
 		before { @user.password = @user.password_confirmation = "a" * 5 }
 		it { should be_invalid }
 	end
 
-	#----------------------------------------------------
-	
 	describe "return value of authenticate method" do
 		before { @user.save }
 		let(:found_user) { User.find_by(email: @user.email) }
@@ -99,9 +97,9 @@ describe "when email format is invalid" do
 		specify { expect(user_for_invalid_password).to be_false }
 		end
     end
-	#----------------------------------------------------
+	
 	describe "remember token" do
 		before { @user.save }
-		its(:remember_token) { should_not be_blank }
-	end	
+			its(:remember_token) { should_not be_blank }
+	end
 end
